@@ -3,6 +3,9 @@ import { AgGridReact } from 'ag-grid-react';
 import '@ag-grid-community/styles/ag-grid.css';
 import '@ag-grid-community/styles/ag-theme-quartz.css';
 import { useRef } from 'react';
+import { TiExport } from "react-icons/ti";
+import { MdFilterAltOff } from "react-icons/md";
+
 
 export default function Table() {
 
@@ -38,13 +41,43 @@ export default function Table() {
       "quantity": 60,
       "price": 99,
     },
+    {
+      "productId": "1",
+      "productName": "Pens",
+      "quantity": 100,
+      "price": 5,
+    },
+    {
+      "productId": "2",
+      "productName": "Notes",
+      "quantity": 50,
+      "price": 50,
+    },
+    {
+      "productId": "3",
+      "productName": "Biscuits",
+      "quantity": 150,
+      "price": 20,
+    },
+    {
+      "productId": "4",
+      "productName": "Bags",
+      "quantity": 200,
+      "price": 75,
+    },
+    {
+      "productId": "5",
+      "productName": "Bottle",
+      "quantity": 60,
+      "price": 99,
+    },
 
 
   ];
   const columnDefs = [
     { field: 'productId', filter: true, sortable: true, headerName: "Product ID", minWidth: 100 },
-    { field: 'productName', filter: true, sortable: true, headerName: "Product Name", minWidth: 300 },
-    { field: 'quantity', filter: true, sortable: true, headerName: "Quantity", minWidth: 150 },
+    { field: 'productName', filter: true, sortable: true, headerName: "Product Name", minWidth: 300, floatingFilter: true, suppressHeaderMenuButton: true, },
+    { field: 'quantity', sortable: true, headerName: "Quantity", minWidth: 150 },
     { field: 'price', filter: true, sortable: true, headerName: "Price", minWidth: 150 },
   ];
 
@@ -53,8 +86,11 @@ export default function Table() {
   }
 
   // to export data
+  let params = {
+    "fileName": "product.csv"
+  }
   const onExportData = () => {
-    gridApi.exportDataAsCsv();
+    gridApi.exportDataAsCsv(params);
   }
 
   // to display filtered data
@@ -73,8 +109,8 @@ export default function Table() {
 
   return (
     <div>
-      <button onClick={() => onExportData()}>export data</button>
-      <button onClick={() => unFilterAll()}>Unfilter</button>
+      <TiExport size={50} style={{ cursor: 'pointer' }} onClick={() => onExportData()}></TiExport>
+      <MdFilterAltOff size={50} style={{ cursor: 'pointer' }} onClick={() => unFilterAll()}></MdFilterAltOff>
       <div
         className='ag-theme-quartz-dark'
         style={{ height: 400, width: 900 }}
