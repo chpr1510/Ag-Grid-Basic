@@ -2,14 +2,23 @@
 import { AgGridReact } from 'ag-grid-react';
 import '@ag-grid-community/styles/ag-grid.css';
 import '@ag-grid-community/styles/ag-theme-quartz.css';
-import { useRef } from 'react';
+import { forwardRef, useImperativeHandle, useRef } from 'react';
 import { TiExport } from "react-icons/ti";
 import { MdFilterAltOff } from "react-icons/md";
 
 
-export default function Table() {
+function Table(props, ref) {
 
   let gridApi = useRef();
+
+  useImperativeHandle(ref, () => {
+    console.log("from imperative handler");
+    return {
+      unFilter: () => unFilterAll(),
+      filterExport: () => onExportData(),
+    };
+  })
+
   const rowData = [
     {
       "productId": "1",
@@ -109,8 +118,8 @@ export default function Table() {
 
   return (
     <div>
-      <TiExport size={50} style={{ cursor: 'pointer' }} onClick={() => onExportData()}></TiExport>
-      <MdFilterAltOff size={50} style={{ cursor: 'pointer' }} onClick={() => unFilterAll()}></MdFilterAltOff>
+     
+      {/* <MdFilterAltOff size={50} style={{ cursor: 'pointer' }} onClick={() => unFilterAll()}></MdFilterAltOff> */}
       <div
         className='ag-theme-quartz-dark'
         style={{ height: 400, width: 900 }}
@@ -127,3 +136,4 @@ export default function Table() {
   );
 };
 
+export default forwardRef(Table);
